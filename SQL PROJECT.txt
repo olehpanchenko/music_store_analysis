@@ -1,0 +1,52 @@
+\\ query 1 \\
+SELECT BillingCountry as Country,
+			sum(il.UnitPrice*il.Quantity) as Amt_spent,
+			g.Name as Genre
+FROM Track t
+JOIN Genre g
+ON t.GenreId = g.GenreId
+JOIN InvoiceLine il
+ON t.TrackId = il.TrackId
+JOIN Invoice i
+ON il.InvoiceId = i.InvoiceId
+JOIN Customer c
+ON i.CustomerId = c.CustomerId
+WHERE g.Name like "Jazz"
+GROUP BY 1
+ORDER BY 2 DESC
+---------------------
+\\query 2 \\
+SELECT g.Name as Genre,
+			count(t.TrackId) as Tracks
+FROM Track t
+JOIN Genre g
+ON t.GenreId = g.GenreId
+GROUP by 1
+ORDER by 2 desc
+----------------------
+\\query 3 \\
+SELECT m.Name as MediaType,
+			count(t.TrackId) as  Number_songs
+from Track t
+JOIN MediaType m
+ON t.MediaTypeId = m.MediaTypeId
+GROUP BY 1
+ORDER BY 2 DESC
+-------------------------
+\\ query 4 \\
+SELECT al.Title as Album,
+			g.Name as Genre,
+			sum(il.UnitPrice*il.Quantity) as Spent
+FROM Track t
+JOIN Genre g
+ON t.GenreId = g.GenreId
+JOIN InvoiceLine il
+ON t.TrackId = il.TrackId
+JOIN Album al
+ON t.AlbumId = al.AlbumId
+JOIN Artist ar
+ON al.ArtistId = ar.ArtistId
+WHERE g.Name = "Rock"
+GROUP BY 1
+ORDER BY 3 DESC
+LIMIT 10
